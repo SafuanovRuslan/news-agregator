@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,22 +18,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function() {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/users/{name}', function($name) {
     return "Hello, $name";
 });
 
-Route::get('/news', function() {
-    return "article 1<br>article 2<br>article 3";
-});
-
-Route::get('/news/{id}', function($id) {
-    return "article $id";
-});
-
 Route::get('/about', function() {
     return "It is 'Hello, World' project";
 });
+
+Route::resource('/category', CategoryController::class);
+Route::resource('category.news', NewsController::class);
+
+Route::resource('/auth', AuthController::class);
