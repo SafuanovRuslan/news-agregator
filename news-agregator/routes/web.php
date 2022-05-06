@@ -25,7 +25,7 @@ Route::get('/users/{name}', function($name) {
 });
 
 Route::get('/about', function() {
-    return "It is 'Hello, World' project";
+    return view('about', ['content' => "It is 'Hello, World' project"]);
 });
 
 Route::resource('/category', CategoryController::class);

@@ -13,14 +13,7 @@ class NewsController extends Controller
      */
     public function index($category)
     {
-        $body = '';
-        foreach(Controller::getNews() as $news) {
-            if ($news['category'] == $category || $category == 'all') {
-                $body .= "<a href=\"/category/$category/news/$news[id]\">$news[heading]</a><br>";
-            }
-        }
-
-        return $body;
+        return view('news.list', ['category' => $category, 'newsList' => Controller::getNews()]);
     }
 
     /**
@@ -30,14 +23,7 @@ class NewsController extends Controller
      */
     public function create($category)
     {
-        return "
-            <form action=\"/category/$category/news\" method=\"post\">
-                <p>Заголовок: <input type=\"text\" name=\"heading\"></p>
-                <p>Текст новости: <textarea name=\"body\"></textarea></p>
-                <p>Краткое описание: <textarea name=\"description\"></textarea></p>
-                <p><input type=\"submit\" value=\"Создать\"></p>
-            </form>
-        ";
+        return view('news.create', ['category' => $category]);
     }
 
     /**
@@ -67,7 +53,7 @@ class NewsController extends Controller
                           <p>$news[body]</p>"; 
             }
         }
-        return $body;
+        return view('news.news', ['category' => $category, 'newsList' => Controller::getNews(), 'id' => $newsId]);
     }
 
     /**

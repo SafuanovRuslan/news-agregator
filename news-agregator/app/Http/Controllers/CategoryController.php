@@ -13,12 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Controller::getCategories();
-        $body = '<a href="category/all/news">all</a><br>';
-        foreach($categories as $category) {
-            $body .= "<a href=\"/category/$category/news\">$category</a><br>"; 
-        }
-        return $body;
+        return view('categories', ['categories' => Controller::getCategories()]);
     }
 
     /**
