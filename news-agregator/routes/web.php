@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\FetchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +34,6 @@ Route::resource('/category', CategoryController::class);
 Route::resource('category.news', NewsController::class);
 
 Route::resource('/auth', AuthController::class);
+
+Route::resource('/feedback', FeedbackController::class);
+Route::resource('/fetch', FetchController::class);
