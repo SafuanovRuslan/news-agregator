@@ -8,10 +8,10 @@
     <div class="news-list">
 
         @foreach ($newsList as $news)
-            @if ($news['category'] == $category || $category == 'all')
-                <a href="/category/{{ $category }}/news/{{ $news['id'] }}" class="categories__link">{{ $news['heading'] }}</a><br>
-            @endif
+                <a href="/category/{{ $news['category_id'] }}/news/{{ $news['id'] }}" class="categories__link">{{ $news['title'] }}</a><br>
         @endforeach
+
+        <a href="{{ route('category.news.create', $categoryId) }}">Добавить новость</a><br>
 
     </div>
     

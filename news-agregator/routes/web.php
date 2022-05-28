@@ -30,7 +30,7 @@ Route::get('/about', function() {
     return view('about', ['content' => "It is 'Hello, World' project"]);
 });
 
-Route::resource('/category', CategoryController::class);
+Route::resource('category', CategoryController::class);
 Route::resource('category.news', NewsController::class);
 
 Route::resource('/auth', AuthController::class);

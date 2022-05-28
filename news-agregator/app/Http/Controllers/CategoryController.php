@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('categories', ['categories' => Controller::getCategories()]);
+        return view('categories.categories', ['categories' => Category::all()]);
     }
 
     /**
@@ -23,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -34,7 +35,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = new Category();
+        $category->fill($request->all());
+        $category->save();
+        return redirect()->route('category.index');
     }
 
     /**
@@ -56,7 +60,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('categories.update', ['category' => Category::query()->where('id', $id)->get()]);
     }
 
     /**
@@ -68,7 +72,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::query()->where('id', $id)->get()[0];
+        $category->fill($request->all());
+        $category->save();
+        return redirect()->route('category.index');
     }
 
     /**

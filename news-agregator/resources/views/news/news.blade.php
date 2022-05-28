@@ -6,16 +6,10 @@
     @parent
 
     <div class="news-list">
-
-        @foreach ($newsList as $news)
-            @if ($news['id'] == $id)
-                <h2>{{ $news['heading'] }}</h2>
-                <p>{{ $news['body'] }}</p>
-            @endif
-        @endforeach
-
+        <h2>{{ $news['title'] }}</h2>
+        <p>{{ $news['body'] }}</p>
     </div>
-    
+    <a href="{{ route('category.news.edit', [$news['category_id'], $news['id']]) }}">Редактировать новость</a>
 @endsection
 
 @section('footerScripts')

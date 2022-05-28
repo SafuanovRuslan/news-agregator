@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\News;
 
 class NewsController extends Controller
 {
@@ -11,9 +13,12 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($category)
+    public function index($categoryId)
     {
-        return view('news.list', ['category' => $category, 'newsList' => Controller::getNews()]);
+        if ($categoryId != 'all') {
+            return view('news.list', ['newsList' => News::query()->where('category_id', $categoryId)->get(), 'categoryId' => $categoryId]);
+        }
+        return view('news.list', ['newsList' => News::all(), 'categoryId' => $categoryId]);
     }
 
     /**
@@ -21,9 +26,9 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($category)
+    public function create($categoryId)
     {
-        return view('news.create', ['category' => $category]);
+        return view('news.create', ['categories' => Category::all(), 'categoryId' => $categoryId]);
     }
 
     /**
@@ -34,7 +39,10 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $news = new News();
+        $news->fill($request->all());
+        $news->save();
+        return redirect()->route('category.news.index', $request->get('category_id'));
     }
 
     /**
@@ -43,17 +51,9 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($category, $newsId)
+    public function show($categoryId, News $news)
     {
-        $newsList = Controller::getNews();
-        $body = "";
-        foreach($newsList as $news) {
-            if ($news['id'] == $newsId) {
-                $body .= "<h1>$news[heading]</h1>
-                          <p>$news[body]</p>"; 
-            }
-        }
-        return view('news.news', ['category' => $category, 'newsList' => Controller::getNews(), 'id' => $newsId]);
+        return view('news.news', ['news' => $news]);
     }
 
     /**
@@ -62,9 +62,9 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($categoryId, News $news)
     {
-        //
+        return view('news.update', ['news' => $news, 'categories' => Category::all()]);
     }
 
     /**
@@ -74,9 +74,12 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $categoryId, $newsId)
     {
-        //
+        $category = News::query()->where('id', $newsId)->get()[0];
+        $category->fill($request->all());
+        $category->save();
+        return redirect()->route('category.news.show', [$categoryId, $newsId]);
     }
 
     /**
