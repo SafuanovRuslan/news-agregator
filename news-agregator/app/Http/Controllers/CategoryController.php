@@ -35,6 +35,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, Category::rules());
         $category = new Category();
         $category->fill($request->all());
         $category->save();
@@ -72,6 +73,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, Category::rules());
         $category = Category::query()->where('id', $id)->get()[0];
         $category->fill($request->all());
         $category->save();

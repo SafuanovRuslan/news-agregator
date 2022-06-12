@@ -11,4 +11,11 @@ class Category extends Model
     protected $fillable = ['name'];
     
     use HasFactory;
+
+    public static function rules()
+    {
+        return [
+            'name' => 'required|min:10|max:255',
+        ];
+    }
 }

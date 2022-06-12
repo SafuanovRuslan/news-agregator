@@ -39,6 +39,7 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, News::rules());
         $news = new News();
         $news->fill($request->all());
         $news->save();
@@ -76,6 +77,7 @@ class NewsController extends Controller
      */
     public function update(Request $request, $categoryId, $newsId)
     {
+        $this->validate($request, News::rules());
         $category = News::query()->where('id', $newsId)->get()[0];
         $category->fill($request->all());
         $category->save();
