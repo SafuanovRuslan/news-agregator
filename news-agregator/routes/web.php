@@ -1,6 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\FetchController;
+use App\Http\Controllers\PermissionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,22 +22,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function() {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/users/{name}', function($name) {
     return "Hello, $name";
 });
 
-Route::get('/news', function() {
-    return "article 1<br>article 2<br>article 3";
-});
-
-Route::get('/news/{id}', function($id) {
-    return "article $id";
-});
-
 Route::get('/about', function() {
-    return "It is 'Hello, World' project";
+    return view('about', ['content' => "It is 'Hello, World' project"]);
 });
+
+Route::resource('category', CategoryController::class);
+Route::resource('category.news', NewsController::class);
+
+Route::resource('/auth', AuthController::class);
+
+Route::resource('/feedback', FeedbackController::class);
+Route::resource('/fetch', FetchController::class);
+Auth::routes();
+
+Route::get('/category/create', [CategoryController::class, 'create'])->middleware(['auth', 'is.admin']);
+Route::get('permissions', [PermissionsController::class, 'index'])->middleware(['auth', 'is.admin'])->name('permissions');
+Route::post('permissions', [PermissionsController::class, 'update'])->name('permissions');
