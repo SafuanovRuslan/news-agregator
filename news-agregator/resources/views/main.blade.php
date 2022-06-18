@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyTimes | @yield('title')</title>
     <link rel="stylesheet" href="/style/main.css">
+    @section('headerScripts')
+    @show
 </head>
 <body>
     <header class="header center">
@@ -16,7 +18,10 @@
             <li class="header__nav-item"><a href="/category/all/news" class="header__nav-link">Новости</a></li>
             <li class="header__nav-item"><a href="/category/all/news/create" class="header__nav-link">Создать новость</a></li>
             <li class="header__nav-item"><a href="/about" class="header__nav-link">О нас</a></li>
-            <li class="header__nav-item"><a href="/auth" class="header__nav-link">Войти</a></li>
+            <li class="header__nav-item"><a class="header__nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Выйти') }}</a></li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none">
+                @csrf
+            </form>
         </ul>
     </header>
     <main class="content center">
